@@ -192,7 +192,7 @@ export const Sidebar = () => {
                         >
                           <Avartar />
                           <span className="sr-only">Your profile</span>
-                          <span aria-hidden="true">Tom Cook</span>
+                          <span aria-hidden="true">Punnawat Dev</span>
                         </a>
                       </li>
                     </ul>
@@ -286,7 +286,7 @@ export const Sidebar = () => {
                 >
                   <Avartar />
                   <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">Tom Cook</span>
+                  <span aria-hidden="true">Punnawat Dev</span>
                 </a>
               </li>
             </ul>
