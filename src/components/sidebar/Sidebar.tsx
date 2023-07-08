@@ -3,7 +3,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import classNames from "classnames";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { AiOutlineGithub } from "react-icons/ai";
 import {
   HiHome,
   HiUser,
@@ -14,25 +15,43 @@ import {
   HiMenu,
   HiChevronRight,
 } from "react-icons/hi";
+import { MdFeed } from "react-icons/md";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Avartar } from "../avatar";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import { ROUTES } from "@/constants";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HiHome, current: false },
-  { name: "Team", href: "#", icon: HiUser, current: false },
-  { name: "Projects", href: "#", icon: HiFolder, current: false },
-  { name: "Calendar", href: "#", icon: HiCalendar, current: false },
-  { name: "Documents", href: "#", icon: HiDocument, current: false },
-  { name: "Reports", href: "#", icon: HiChartBar, current: false },
+  { name: "Home", href: ROUTES.HOME, icon: HiHome, current: false },
+  { name: "Feed", href: ROUTES.FEED, icon: MdFeed, current: false },
+  // { name: "Projects", href: "#", icon: HiFolder, current: false },
+  // { name: "Calendar", href: "#", icon: HiCalendar, current: false },
+  // { name: "Documents", href: "#", icon: HiDocument, current: false },
+  // { name: "Reports", href: "#", icon: HiChartBar, current: false },
 ];
 
 const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+  {
+    id: 1,
+    name: "GitHub",
+    href: "https://github.com/punnawat-ch/nextjs-intercepting-route-example",
+    initial: "",
+    icon: AiOutlineGithub,
+    current: false,
+  },
+  // { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+  // { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 
 export const Sidebar = () => {
+  const pathname = usePathname();
+
+  // const [isActive, setActive] = useState<{path: string, active: boolean}>()
+
+  // useEffect(() => {
+  //   setActive({path: pathname, active: true})
+  // },[pathname])
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const toggleSidebar = () => {
@@ -109,26 +128,27 @@ export const Sidebar = () => {
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item) => (
                             <li key={item.name}>
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? "bg-gray-50 text-indigo-600"
-                                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                )}
-                              >
-                                <item.icon
+                              <Link href={item.href}>
+                                <a
                                   className={classNames(
-                                    item.current
-                                      ? "text-indigo-600"
-                                      : "text-gray-400 group-hover:text-indigo-600",
-                                    "h-6 w-6 shrink-0"
+                                    item.href === pathname
+                                      ? "bg-gray-50 text-indigo-600"
+                                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                   )}
-                                  aria-hidden="true"
-                                />
-                                {item.name}
-                              </a>
+                                >
+                                  <item.icon
+                                    className={classNames(
+                                      item.href === pathname
+                                        ? "text-indigo-600"
+                                        : "text-gray-400 group-hover:text-indigo-600",
+                                      "h-6 w-6 shrink-0"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                  {item.name}
+                                </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -205,7 +225,7 @@ export const Sidebar = () => {
                       <a
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.href === pathname
                             ? "bg-gray-50 text-indigo-600"
                             : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -213,7 +233,7 @@ export const Sidebar = () => {
                       >
                         <item.icon
                           className={classNames(
-                            item.current
+                            item.href === pathname
                               ? "text-indigo-600"
                               : "text-gray-400 group-hover:text-indigo-600",
                             "h-6 w-6 shrink-0"
@@ -235,6 +255,7 @@ export const Sidebar = () => {
                     <li key={team.name}>
                       <a
                         href={team.href}
+                        target="_blank"
                         className={classNames(
                           team.current
                             ? "bg-gray-50 text-indigo-600"
@@ -247,10 +268,10 @@ export const Sidebar = () => {
                             team.current
                               ? "text-indigo-600 border-indigo-600"
                               : "text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
+                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-lg font-medium bg-white"
                           )}
                         >
-                          {team.initial}
+                          <team.icon />
                         </span>
                         <span className="truncate">{team.name}</span>
                       </a>
@@ -286,11 +307,7 @@ export const Sidebar = () => {
         </div>
         <a href="#">
           <span className="sr-only">Your profile</span>
-          <img
-            className="h-8 w-8 rounded-full bg-gray-50"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+          <Avartar />
         </a>
       </div>
     </>
