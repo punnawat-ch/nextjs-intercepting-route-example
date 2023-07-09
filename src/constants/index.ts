@@ -612,4 +612,5 @@ export const posts = [
 export const ROUTES = {
   HOME: "/",
   FEED: "/feed",
+  LOGIN: "/login",
 };

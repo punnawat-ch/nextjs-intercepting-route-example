@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { App } from "./App";
 import "./globals.css";
 import { Sidebar } from "@/components";
@@ -9,19 +10,24 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  authModal,
 }: {
   children: React.ReactNode;
+  authModal: React.ReactNode;
 }) {
+  const nextCookies = cookies();
+  const token = nextCookies.get("token");
+
+  // const isLoggedIn = false;
+
   // const loginSegments = useSelectedLayoutSegment("authModal");
   return (
     <html lang="en">
       <body id="__next">
-        <Sidebar />
-        <main className="lg:pl-72 py-4">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <App>{children}</App>
-          </div>
-        </main>
+        <App>
+          {children}
+          {authModal}
+        </App>
       </body>
     </html>
   );

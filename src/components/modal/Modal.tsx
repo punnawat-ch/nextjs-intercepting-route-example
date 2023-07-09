@@ -1,23 +1,21 @@
 "use client";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, PropsWithChildren, useState } from "react";
-import { useRouter } from "next/navigation";
-export const Modal = ({ children }: PropsWithChildren) => {
-  let [isOpen, setIsOpen] = useState(true);
-  const router = useRouter();
-  function closeModal() {
-    router.back();
-    setIsOpen(false);
-  }
+import { Fragment, PropsWithChildren } from "react";
 
-  function openModal() {
-    setIsOpen(true);
-  }
+interface LoginModal {
+  onClose: () => void;
+  open: boolean;
+}
 
+export const Modal = ({
+  children,
+  open,
+  onClose,
+}: PropsWithChildren<LoginModal>) => {
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+      <Transition appear show={open} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={onClose}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

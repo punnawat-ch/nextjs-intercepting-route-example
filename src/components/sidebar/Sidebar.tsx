@@ -14,6 +14,7 @@ import {
   HiChartBar,
   HiMenu,
   HiChevronRight,
+  HiOutlineLogin,
 } from "react-icons/hi";
 import { MdFeed } from "react-icons/md";
 import { HiOutlineXMark } from "react-icons/hi2";
@@ -21,6 +22,8 @@ import { Avartar } from "../avatar";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { ROUTES } from "@/constants";
+import { Button } from "../button";
+import { useAuthContext } from "@/contexts";
 
 const navigation = [
   { name: "Home", href: ROUTES.HOME, icon: HiHome, current: false },
@@ -46,12 +49,7 @@ const teams = [
 
 export const Sidebar = () => {
   const pathname = usePathname();
-
-  // const [isActive, setActive] = useState<{path: string, active: boolean}>()
-
-  // useEffect(() => {
-  //   setActive({path: pathname, active: true})
-  // },[pathname])
+  const { user } = useAuthContext();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const toggleSidebar = () => {
@@ -222,7 +220,7 @@ export const Sidebar = () => {
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className={classNames(
                           item.href === pathname
@@ -241,7 +239,7 @@ export const Sidebar = () => {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -280,14 +278,23 @@ export const Sidebar = () => {
                 </ul>
               </li>
               <li className="-mx-6 mt-auto">
-                <a
-                  href="#"
-                  className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                >
-                  <Avartar />
-                  <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">Punnawat Dev</span>
-                </a>
+                {user?.isLoggedIn ? (
+                  <a
+                    href="#"
+                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                  >
+                    <Avartar />
+                    <span className="sr-only">Your profile</span>
+                    <span aria-hidden="true">Punnawat Dev</span>
+                  </a>
+                ) : (
+                  <Link href={ROUTES.LOGIN}>
+                    <p className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50">
+                      <HiOutlineLogin />
+                      Log In
+                    </p>
+                  </Link>
+                )}
               </li>
             </ul>
           </nav>
