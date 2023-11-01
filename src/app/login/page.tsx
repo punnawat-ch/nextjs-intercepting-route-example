@@ -1,4 +1,12 @@
+"use client";
+import { useEffect } from "react";
+
 export default function Page() {
+  useEffect(() => {
+    setInterval(() => {
+      console.log("cookie ->", window.document.cookie);
+    }, 3000);
+  }, []);
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form className="space-y-6" action="#" method="POST">
